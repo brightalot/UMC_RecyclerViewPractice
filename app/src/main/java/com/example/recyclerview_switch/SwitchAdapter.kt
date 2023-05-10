@@ -10,6 +10,7 @@ class SwitchAdapter(private val switchlist: List<Switch>): RecyclerView.Adapter<
         parent: ViewGroup,
         viewType: Int
     ): SwitchViewHolder {
+
         return SwitchViewHolder(
             ItemSwitchBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -17,10 +18,11 @@ class SwitchAdapter(private val switchlist: List<Switch>): RecyclerView.Adapter<
                 false
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: SwitchAdapter.SwitchViewHolder, position: Int) {
+        holder.binding.switchSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            switchlist[position].completed = isChecked }
         holder.bind(switchlist[position])
     }
 
@@ -28,7 +30,7 @@ class SwitchAdapter(private val switchlist: List<Switch>): RecyclerView.Adapter<
         return switchlist.size
     }
 
-    class SwitchViewHolder(private val binding: ItemSwitchBinding)
+    class SwitchViewHolder(val binding: ItemSwitchBinding)
         :RecyclerView.ViewHolder(binding.root) {
        fun bind(switch: Switch) {
            binding.switchTitleText.text = switch.title

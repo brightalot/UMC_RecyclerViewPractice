@@ -1,6 +1,6 @@
 package com.example.recyclerview_switch
 
 class Switch (
-    val title: String,
-    val completed: Boolean
+    var title: String,
+    var completed: Boolean
 )
