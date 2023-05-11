@@ -13,12 +13,22 @@ class MemoActivity : AppCompatActivity() {
         binding = ActivityMemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var memoIndex = intent.getIntExtra("position", -1)
+
+        var memoSaved = intent.getStringExtra("memo")
+        if (memoSaved != null) {binding.etAddMemo.setText(memoSaved)}
+
         binding.btnSave.setOnClickListener {
             val memo = binding.etAddMemo.text.toString()
             val intent = Intent()
-            intent.putExtra("memo", memo)
+            if(memoIndex != -1) {
+                intent.putExtra("memo", memo)
+                intent.putExtra("position", memoIndex)
+            }
+            else {
+                intent.putExtra("memo", memo)
+            }
             setResult(Activity.RESULT_OK, intent)
-
             finish()
         }
     }
