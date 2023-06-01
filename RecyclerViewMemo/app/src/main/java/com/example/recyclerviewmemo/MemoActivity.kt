@@ -1,7 +1,7 @@
 package com.example.recyclerviewmemo
 
-import android.app.Activity
 import android.content.Intent
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.recyclerviewmemo.databinding.ActivityMemoBinding

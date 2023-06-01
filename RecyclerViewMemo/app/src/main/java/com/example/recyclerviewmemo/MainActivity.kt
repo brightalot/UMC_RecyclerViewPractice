@@ -1,5 +1,6 @@
 package com.example.recyclerviewmemo
 
+import MemoAdapter
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recyclerviewmemo.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -19,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        Pref.getContext(this)
 
         initializeViews()
 
@@ -38,10 +42,11 @@ class MainActivity : AppCompatActivity() {
                     memos[position] = modifiedMemo
                     adapter.notifyItemChanged(position)
                 }
+                Pref.saveMemos(memos)
             }
         }
 
-        adapter = MemoAdapter(memos, memoActivityLauncher)
+        adapter = MemoAdapter(memos, this.memoActivityLauncher)
 
         binding.rvMemo.adapter = adapter
 
@@ -49,8 +54,16 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, MemoActivity::class.java)
             memoActivityLauncher.launch(intent)
         }
+        Pref.loadMemos(memos)
+        adapter.notifyDataSetChanged()
     }
     private fun initializeViews() {
         binding.rvMemo.layoutManager = LinearLayoutManager(this)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
     }
 }
